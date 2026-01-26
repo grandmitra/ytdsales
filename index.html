@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <meta http-equiv="X-UA-Compatible" content="IE=edge">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/x-icon" href="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEigSSGeWUJ5e9xXZ1l3qp3dH-WVgGqa3uh53AY_6WjxqS_lpg2pw2I_5tDW6selO1-i3dR69CzeKJPFiNPbKI9KcDgDMHVUz9gqiH7DPz3aFeo3CrD2TCzarHY9DVEx0lxtc-VU5Z3nfPIPnBZZ9dx3U_UB1Bb6yBZ-Jrnl_nIzam7cvBrHuZq-I84yQTa-/w945-h600-p-k-no-nu/favicon-32x32.png"> 	
+   <title>AnalysisRFQ</title>
+   <style>
+      * {
+         margin: 0;
+         padding: 0;
+         box-sizing: border-box;
+         font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      }
+      
+      body {
+         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+         min-height: 100vh;
+         display: flex;
+         justify-content: center;
+         align-items: center;
+         padding: 20px;
+      }
+      
+      .login-container {
+         background-color: rgba(255, 255, 255, 0.95);
+         border-radius: 20px;
+         box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+         width: 100%;
+         max-width: 400px;
+         padding: 40px 30px;
+         animation: slideUp 0.5s ease-out;
+      }
+      
+      @keyframes slideUp {
+         from {
+            opacity: 0;
+            transform: translateY(30px);
+         }
+         to {
+            opacity: 1;
+            transform: translateY(0);
+         }
+      }
+      
+      .login-header {
+         text-align: center;
+         margin-bottom: 30px;
+      }
+      
+      .login-header h1 {
+         color: #333;
+         font-size: 28px;
+         margin-bottom: 8px;
+         background: linear-gradient(to right, #667eea, #764ba2);
+         -webkit-background-clip: text;
+         -webkit-text-fill-color: transparent;
+      }
+      
+      .login-header p {
+         color: #666;
+         font-size: 14px;
+      }
+      
+      .login-form .input-group {
+         margin-bottom: 20px;
+      }
+      
+      .login-form label {
+         display: block;
+         margin-bottom: 8px;
+         color: #555;
+         font-weight: 600;
+         font-size: 14px;
+      }
+      
+      .login-form input {
+         width: 100%;
+         padding: 14px;
+         border: 2px solid #e1e5e9;
+         border-radius: 10px;
+         font-size: 16px;
+         transition: all 0.3s;
+         background-color: #f8f9fa;
+      }
+      
+      .login-form input:focus {
+         outline: none;
+         border-color: #667eea;
+         background-color: white;
+         box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+      }
+      
+      .login-button {
+         width: 100%;
+         padding: 15px;
+         background: linear-gradient(to right, #667eea, #764ba2);
+         color: white;
+         border: none;
+         border-radius: 10px;
+         font-size: 16px;
+         font-weight: 600;
+         cursor: pointer;
+         transition: all 0.3s;
+         margin-top: 10px;
+      }
+      
+      .login-button:hover {
+         transform: translateY(-2px);
+         box-shadow: 0 7px 14px rgba(102, 126, 234, 0.3);
+      }
+      
+      .login-button:active {
+         transform: translateY(0);
+      }
+      
+      .error-message {
+         color: #e74c3c;
+         text-align: center;
+         margin-top: 15px;
+         font-size: 14px;
+         min-height: 20px;
+         display: none;
+      }
+      
+      .show-password {
+         display: flex;
+         align-items: center;
+         margin-top: 10px;
+         font-size: 14px;
+         color: #555;
+      }
+      
+      .show-password input {
+         width: auto;
+         margin-right: 8px;
+      }
+      
+      .footer {
+         text-align: center;
+         margin-top: 25px;
+         font-size: 12px;
+         color: #888;
+      }
+      
+      .app-container {
+         display: none;
+         width: 100%;
+         height: 100vh;
+      }
+      
+      .app-header {
+         background: linear-gradient(to right, #667eea, #764ba2);
+         color: white;
+         padding: 15px 20px;
+         display: flex;
+         justify-content: space-between;
+         align-items: center;
+         box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+      }
+      
+      .app-header h2 {
+         font-size: 20px;
+      }
+      
+      .logout-button {
+         background-color: rgba(255, 255, 255, 0.2);
+         color: white;
+         border: 1px solid rgba(255, 255, 255, 0.3);
+         padding: 8px 15px;
+         border-radius: 6px;
+         cursor: pointer;
+         font-size: 14px;
+         transition: all 0.3s;
+      }
+      
+      .logout-button:hover {
+         background-color: rgba(255, 255, 255, 0.3);
+      }
+   </style>
+</head>
+<body>
+   <!-- Login Container -->
+   <div class="login-container" id="loginContainer">
+      <div class="login-header">
+         <h1>AnalysisRFQ</h1>
+         <p>Please login to access the application</p>
+      </div>
+      
+      <form class="login-form" id="loginForm">
+         <div class="input-group">
+            <label for="username">Username</label>
+            <input type="text" id="username" placeholder="Enter your username" required>
+         </div>
+         
+         <div class="input-group">
+            <label for="password">Password</label>
+            <input type="password" id="password" placeholder="Enter your password" required>
+         </div>
+         
+         <div class="show-password">
+            <input type="checkbox" id="showPassword">
+            <label for="showPassword">Show Password</label>
+         </div>
+         
+         <button type="submit" class="login-button">Login</button>
+         
+         <div class="error-message" id="errorMessage">
+            Invalid username or password
+         </div>
+      </form>
+      
+      <div class="footer">
+         <p>Default credentials: seperti biasa</p>
+      </div>
+   </div>
+   
+   <!-- App Container (akan ditampilkan setelah login berhasil) -->
+   <div class="app-container" id="appContainer">
+      <div class="app-header">
+         <h2>AnalysisRFQ Application</h2>
+         <button class="logout-button" id="logoutButton">Logout</button>
+      </div>
+      <iframe 
+         allow="geolocation" 
+         src="https://lookerstudio.google.com/embed/reporting/d56f942a-8beb-426b-96cf-5c5c7cd86b66/page/p_bz1cfmbwsd" 
+         style="width:100%; height:calc(100vh - 60px); border:none; margin:0; padding:0;"
+      >Your browser doesn't support iframes</iframe>
+   </div>
+
+   <script>
+      // Hardcode credentials
+      const HARDCODE_USERNAME = 'gmb';
+      const HARDCODE_PASSWORD = '123';
+      
+      // DOM Elements
+      const loginContainer = document.getElementById('loginContainer');
+      const appContainer = document.getElementById('appContainer');
+      const loginForm = document.getElementById('loginForm');
+      const usernameInput = document.getElementById('username');
+      const passwordInput = document.getElementById('password');
+      const errorMessage = document.getElementById('errorMessage');
+      const showPasswordCheckbox = document.getElementById('showPassword');
+      const logoutButton = document.getElementById('logoutButton');
+      
+      // Toggle password visibility
+      showPasswordCheckbox.addEventListener('change', function() {
+         passwordInput.type = this.checked ? 'text' : 'password';
+      });
+      
+      // Handle login form submission
+      loginForm.addEventListener('submit', function(e) {
+         e.preventDefault();
+         
+         const username = usernameInput.value.trim();
+         const password = passwordInput.value.trim();
+         
+         // Check credentials
+         if (username === HARDCODE_USERNAME && password === HARDCODE_PASSWORD) {
+            // Login successful
+            errorMessage.style.display = 'none';
+            
+            // Simulate loading delay
+            document.querySelector('.login-button').textContent = 'Logging in...';
+            document.querySelector('.login-button').disabled = true;
+            
+            // Show app after short delay
+            setTimeout(() => {
+               loginContainer.style.display = 'none';
+               appContainer.style.display = 'block';
+               
+               // Reset form
+               loginForm.reset();
+               document.querySelector('.login-button').textContent = 'Login';
+               document.querySelector('.login-button').disabled = false;
+            }, 800);
+         } else {
+            // Login failed
+            errorMessage.style.display = 'block';
+            
+            // Shake animation for error
+            loginContainer.style.animation = 'none';
+            setTimeout(() => {
+               loginContainer.style.animation = 'slideUp 0.5s ease-out';
+            }, 10);
+         }
+      });
+      
+      // Handle logout
+      logoutButton.addEventListener('click', function() {
+         appContainer.style.display = 'none';
+         loginContainer.style.display = 'block';
+         
+         // Clear form
+         usernameInput.value = '';
+         passwordInput.value = '';
+         showPasswordCheckbox.checked = false;
+         passwordInput.type = 'password';
+         
+         // Focus on username field
+         usernameInput.focus();
+      });
+      
+      // Allow pressing Enter to submit form
+      usernameInput.addEventListener('keypress', function(e) {
+         if (e.key === 'Enter') {
+            e.preventDefault();
+            passwordInput.focus();
+         }
+      });
+      
+      passwordInput.addEventListener('keypress', function(e) {
+         if (e.key === 'Enter') {
+            e.preventDefault();
+            loginForm.dispatchEvent(new Event('submit'));
+         }
+      });
+      
+      // Focus on username field when page loads
+      window.addEventListener('DOMContentLoaded', function() {
+         usernameInput.focus();
+      });
+   </script>
+</body>
+</html>
